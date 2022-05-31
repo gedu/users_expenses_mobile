@@ -1,9 +1,9 @@
+import LottieView from 'lottie-react-native';
 import React from 'react';
 import { Text, View } from 'react-native';
 import { styles } from './SplashPage.style';
-import LottieView from 'lottie-react-native';
 
-export function SplashPage() {
+export const SplashPage = () => {
   return (
     <View style={styles.root}>
       <Text style={styles.title}>Expenses</Text>
@@ -17,4 +17,4 @@ export function SplashPage() {
       </View>
     </View>
   );
-}
+};
