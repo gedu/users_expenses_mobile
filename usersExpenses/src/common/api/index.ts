@@ -1,7 +1,8 @@
-import { expensefetcher } from './expenseFetcher';
+import axios from 'axios';
+import Config from 'react-native-config';
 
-const apiConfig = {
-  fetcher: (resource: string) => expensefetcher(resource),
-};
+const instance = axios.create({
+  baseURL: Config.API_URL,
+});
 
-export default apiConfig;
+export default instance;
