@@ -15,3 +15,12 @@ export type Expense = {
     last: string;
   };
 };
+
+export type CreditCards = 'visa' | 'master';
+
+export type CardItem = {
+  balance: string;
+  brand: CreditCards;
+  id: string;
+  number: string;
+};

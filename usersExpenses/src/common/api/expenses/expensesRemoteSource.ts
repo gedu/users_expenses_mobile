@@ -1,9 +1,23 @@
 import { Expense } from '../../types/types';
 import api from '../index';
 
-export const fetchExpenses = async (limit: number, offset: number) => {
-  const response = await api.get<Array<Expense>>('/expenses', {
+export type NetResponse = {
+  error?: string;
+  expenses: Expense[];
+};
+
+export const fetchExpenses = async (
+  limit: number,
+  offset: number,
+): Promise<NetResponse> => {
+  const response = await api.get<NetResponse>('/expenses', {
     params: { limit, offset },
   });
-  console.log('RESPONSE: ', response.data);
+
+  //todo: handle better with status too
+  if (response.data) {
+    return { expenses: response.data.expenses, error: undefined };
+  } else {
+    return { expenses: [], error: 'Something went wrong' };
+  }
 };

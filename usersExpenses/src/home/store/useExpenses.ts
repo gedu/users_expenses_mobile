@@ -14,8 +14,16 @@ export const useExpenses = create<UseExpensesStore>(
       expenses: [],
 
       loadExpenses: async () => {
-        await fetchExpenses(25, 0);
-        set({ expenses: [] });
+        try {
+          const res = await fetchExpenses(25, 0);
+          console.log('RES bla: ', res);
+          if (res.error) {
+          } else {
+            set({ expenses: res.expenses });
+          }
+        } catch (error) {
+          console.log('Loading Expenses error:', error);
+        }
       },
     }),
     { name: 'UseExpensesStore' },
