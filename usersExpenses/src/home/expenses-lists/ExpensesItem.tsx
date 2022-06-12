@@ -1,5 +1,6 @@
+import dayjs from 'dayjs';
 import React from 'react';
-import { Image, ListRenderItem, Text, TextInput, View } from 'react-native';
+import { Image, ListRenderItem, Text, View } from 'react-native';
 import { moneyIcon } from '../../../assets/images';
 import { Expense } from '../../common/types/types';
 import { styles } from './ExpensesList.style';
@@ -7,6 +8,8 @@ import { styles } from './ExpensesList.style';
 type CommentFieldProps = {
   comment: string;
 };
+
+const dayMonthYearFormat = 'DD/MM/YYYY';
 
 const CommentField = ({ comment }: CommentFieldProps) => {
   if (comment.length === 0) {
@@ -35,7 +38,9 @@ export const ExpensesItem: ListRenderItem<Expense> = ({ item }) => {
       </View>
       <View style={styles.cardHeader}>
         <Text style={styles.secondaryText}>{item.merchant}</Text>
-        <Text style={styles.secondaryText}>{item.date.slice(0, 6)}</Text>
+        <Text style={styles.secondaryText}>
+          {dayjs(item.date).format(dayMonthYearFormat)}
+        </Text>
       </View>
       <CommentField comment={item.comment} />
     </View>

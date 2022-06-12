@@ -2,7 +2,9 @@ import { StyleSheet } from 'react-native';
 import { Colors } from '../theme';
 
 export const styles = StyleSheet.create({
-  root: { flex: 1 },
+  root: {
+    flex: 1,
+  },
   title: {
     textAlign: 'center',
     fontSize: 18,

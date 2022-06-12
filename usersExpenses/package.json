@@ -13,6 +13,7 @@
     "@react-navigation/native": "^6.0.10",
     "@react-navigation/native-stack": "^6.6.2",
     "axios": "^0.27.2",
+    "dayjs": "^1.11.3",
     "i18next": "^21.8.5",
     "lottie-ios": "3.2.3",
     "lottie-react-native": "^5.1.3",
