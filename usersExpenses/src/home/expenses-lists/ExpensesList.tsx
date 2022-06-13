@@ -1,17 +1,28 @@
 import React from 'react';
-import { FlatList, Text, View } from 'react-native';
+import { FlatList, ListRenderItem } from 'react-native';
 import { Expense } from '../../common/types/types';
+import { SearchBox } from '../search-box/SearchBox';
+import { EmptySearch } from './EmptySearch';
 import { ExpensesItem } from './ExpensesItem';
+import { styles } from './ExpensesList.style';
 
 type ExpensesListProps = {
   expenses: Expense[];
 };
 
 export const ExpensesList = ({ expenses }: ExpensesListProps) => {
+  const renderItem: ListRenderItem<Expense> = ({ item }) => (
+    <ExpensesItem expense={item} />
+  );
   return (
-    <View>
-      <Text>TODO ADD SEARCH</Text>
-      <FlatList data={expenses} renderItem={ExpensesItem} />
-    </View>
+    <>
+      <FlatList
+        contentContainerStyle={styles.listContainer}
+        data={expenses}
+        renderItem={renderItem}
+        ListEmptyComponent={<EmptySearch />}
+      />
+      <SearchBox />
+    </>
   );
 };

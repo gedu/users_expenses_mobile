@@ -3,4 +3,5 @@ export default {
   home: 'Home',
   totalBalance: 'Total Balance',
   loading: 'Loading',
+  searchHint: 'Search by name',
 };

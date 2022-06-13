@@ -6,6 +6,8 @@ import { StoreResponse } from '../../common/api/model/netState';
 import { Expense } from '../../common/types/types';
 
 export type UseExpensesStore = {
+  addQuery: (query: string) => void;
+  currentSearch?: string;
   expenses: Expense[];
   loadExpenses: (setState: Dispatch<SetStateAction<StoreResponse>>) => void;
 };
@@ -14,6 +16,7 @@ export const useExpenses = create<UseExpensesStore>(
   devtools(
     (set: SetState<UseExpensesStore>) => ({
       expenses: [],
+      currentSearch: undefined,
 
       loadExpenses: async (
         setState: Dispatch<SetStateAction<StoreResponse>>,
@@ -32,6 +35,9 @@ export const useExpenses = create<UseExpensesStore>(
           setState({ state: 'error', msg: 'Something went wrong' });
           console.log('Loading Expenses error:', error);
         }
+      },
+      addQuery: (query: string) => {
+        set({ currentSearch: query.length === 0 ? undefined : query });
       },
     }),
     { name: 'UseExpensesStore' },

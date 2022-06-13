@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Text, View } from 'react-native';
 import { StoreResponse } from '../common/api/model/netState';
-import { Expense } from '../common/types/types';
+import { Expense, UserExpense } from '../common/types/types';
 import { styles } from './HomePage.style';
 import { CreditCardList } from './credit-card-list/CreditCardList';
 
@@ -16,6 +16,18 @@ type ExpensesViewProps = {
 };
 const loadExpensesStore = (store: UseExpensesStore) => store.loadExpenses;
 const expensesStore = (store: UseExpensesStore) => store.expenses;
+const currentSearchStore = (store: UseExpensesStore) => store.currentSearch;
+
+const userNameContainsQuery = (user: UserExpense, query?: string) => {
+  if (!query) {
+    return true;
+  }
+  const smallCaseQuery = query.toLocaleLowerCase();
+  return (
+    user.first.toLocaleLowerCase().indexOf(smallCaseQuery) !== -1 ||
+    user.last.toLocaleLowerCase().indexOf(smallCaseQuery) !== -1
+  );
+};
 
 const ExpensesView = ({ fetchState, expenses }: ExpensesViewProps) => {
   if (fetchState.state === 'loading') {
@@ -37,10 +49,17 @@ export const HomePage = () => {
   });
   const loadExpenses = useExpenses(loadExpensesStore);
   const expenses = useExpenses(expensesStore);
+  const currentSearch = useExpenses(currentSearchStore);
 
   useEffect(() => {
     loadExpenses(setFetchState);
   }, [loadExpenses]);
+
+  const filteredExpenses = useMemo(() => {
+    return expenses.filter(expense =>
+      userNameContainsQuery(expense.user, currentSearch),
+    );
+  }, [expenses, currentSearch]);
 
   return (
     <View style={styles.root}>
@@ -49,7 +68,7 @@ export const HomePage = () => {
       <View>
         <CreditCardList />
       </View>
-      <ExpensesView fetchState={fetchState} expenses={expenses} />
+      <ExpensesView fetchState={fetchState} expenses={filteredExpenses} />
     </View>
   );
 };

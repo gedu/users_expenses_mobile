@@ -1,3 +1,9 @@
+export type UserExpense = {
+  email: string;
+  first: string;
+  last: string;
+};
+
 export type Expense = {
   amount: {
     currency: string;
@@ -9,11 +15,7 @@ export type Expense = {
   id: string;
   merchant: string;
   receipts: unknown[];
-  user: {
-    email: string;
-    first: string;
-    last: string;
-  };
+  user: UserExpense;
 };
 
 export type CreditCards = 'visa' | 'master';

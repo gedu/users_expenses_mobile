@@ -1,7 +1,12 @@
-import { StyleSheet } from 'react-native';
+import { Dimensions, StyleSheet } from 'react-native';
 import { Colors } from '../../theme';
 
+const { width, height } = Dimensions.get('window');
+
 export const styles = StyleSheet.create({
+  listContainer: {
+    paddingBottom: 64,
+  },
   card: {
     margin: 8,
     padding: 16,
@@ -59,5 +64,13 @@ export const styles = StyleSheet.create({
     marginTop: 8,
     fontSize: 24,
     color: Colors.white,
+  },
+  emptySearchContainer: {
+    alignItems: 'center',
+  },
+  emptySearchAnim: {
+    width: width * 0.2,
+    height: height * 0.2,
+    marginTop: height * 0.02,
   },
 });
