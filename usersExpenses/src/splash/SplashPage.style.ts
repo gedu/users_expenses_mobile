@@ -1,5 +1,5 @@
 import { Dimensions, StyleSheet } from 'react-native';
-import { Colors, Typography } from '../theme';
+import { Colors, typography } from '../theme';
 
 const { width, height } = Dimensions.get('window');
 
@@ -11,7 +11,7 @@ export const styles = StyleSheet.create({
   },
   title: {
     marginTop: height * 0.15,
-    ...Typography.headlineLarge,
+    ...typography.headlineLarge,
   },
   animationContainer: {
     flex: 1,

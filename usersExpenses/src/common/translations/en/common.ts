@@ -4,4 +4,7 @@ export default {
   totalBalance: 'Total Balance',
   loading: 'Loading',
   searchHint: 'Search by name',
+  noComments: 'No Comments',
+  receipt: 'Receipt',
+  add: 'Add',
 };

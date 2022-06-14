@@ -1,5 +1,5 @@
 import { Dimensions, StyleSheet } from 'react-native';
-import { Colors } from '../../theme';
+import { Colors, typography } from '../../theme';
 
 const { width, height } = Dimensions.get('window');
 
@@ -33,17 +33,16 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
   },
   fullName: {
+    ...typography.bodyLarge,
     color: Colors.black,
-    fontSize: 20,
   },
   expenseAmount: {
+    ...typography.bodyMediumBold,
     color: Colors.russianViolet,
-    fontWeight: 'bold',
-    fontSize: 18,
   },
   secondaryText: {
-    color: Colors.graniteGrey,
-    fontSize: 14,
+    ...typography.bodySmall,
+    color: Colors.dimeGrey,
   },
   divider: {
     backgroundColor: Colors.teaGreenDark,
@@ -53,17 +52,12 @@ export const styles = StyleSheet.create({
     alignSelf: 'center',
   },
   commentTitle: {
+    ...typography.bodyXSmallBold,
     marginTop: 8,
-    fontSize: 12,
-    fontWeight: 'bold',
   },
   commentText: {
-    color: Colors.graniteGrey,
-  },
-  balanceText: {
-    marginTop: 8,
-    fontSize: 24,
-    color: Colors.white,
+    ...typography.bodySmall,
+    color: Colors.dimeGrey,
   },
   emptySearchContainer: {
     alignItems: 'center',

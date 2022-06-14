@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { Colors } from '../../theme';
+import { Colors, typography } from '../../theme';
 
 export const styles = StyleSheet.create({
   card: {
@@ -14,7 +14,8 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   cardNumber: {
-    color: Colors.graniteGrey,
+    ...typography.bodyMedium,
+    color: Colors.dimeGrey,
     marginEnd: 24,
   },
   cardLogo: {
@@ -22,8 +23,8 @@ export const styles = StyleSheet.create({
     height: 20,
   },
   balanceText: {
+    ...typography.headlineMedium,
     marginTop: 8,
-    fontSize: 24,
     color: Colors.white,
   },
 });

@@ -1,16 +1,11 @@
 import { useNavigation } from '@react-navigation/native';
 import dayjs from 'dayjs';
 import React from 'react';
-import {
-  Image,
-  ListRenderItem,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import { Image, Text, TouchableOpacity, View } from 'react-native';
 import { moneyIcon } from '../../../assets/images';
 import { UseDetailsStore, useDetails } from '../../common/store/useDetails';
 import { Expense } from '../../common/types/types';
+import { formatCurrency } from '../../common/utils/currency';
 import { NavigationProps } from '../../routes';
 import { styles } from './ExpensesList.style';
 
@@ -55,7 +50,9 @@ export const ExpensesItem = ({ expense }: ExpensesItemProps) => {
       </View>
       <View style={styles.cardHeader}>
         <Text style={styles.fullName}>{fullName}</Text>
-        <Text style={styles.expenseAmount}>{expense.amount.value}</Text>
+        <Text style={styles.expenseAmount}>
+          {formatCurrency(expense.amount)}
+        </Text>
       </View>
       <View style={styles.cardHeader}>
         <Text style={styles.secondaryText}>{expense.merchant}</Text>

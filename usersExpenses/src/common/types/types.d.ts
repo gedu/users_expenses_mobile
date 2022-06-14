@@ -1,3 +1,5 @@
+import { CurrencyCode } from '../utils/currency';
+
 export type UserExpense = {
   email: string;
   first: string;
@@ -6,7 +8,7 @@ export type UserExpense = {
 
 export type Expense = {
   amount: {
-    currency: string;
+    currency: CurrencyCode;
     value: string;
   };
   category: string;

@@ -1,21 +1,20 @@
 import { StyleSheet } from 'react-native';
-import { Colors } from '../theme';
+import { Colors, typography } from '../theme';
 
 export const styles = StyleSheet.create({
   root: {
     flex: 1,
   },
   title: {
+    ...typography.headlineSmall,
     textAlign: 'center',
-    fontSize: 18,
     marginTop: 24,
-    color: Colors.graniteGrey,
+    color: Colors.dimeGrey,
   },
   balanceText: {
+    ...typography.headlineLarge,
     textAlign: 'center',
-    fontSize: 32,
     marginVertical: 32,
-    fontWeight: 'bold',
     color: Colors.blueGreen,
   },
 });
