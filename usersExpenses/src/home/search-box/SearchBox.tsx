@@ -23,7 +23,7 @@ export const SearchBox = () => {
   const handleSearch = ({
     nativeEvent: { text },
   }: NativeSyntheticEvent<TextInputChangeEventData>) => {
-    addQuery(text.toLocaleLowerCase());
+    addQuery(text);
   };
 
   return (

@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Text, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { StoreResponse } from '../common/api/model/netState';
 import { Expense, UserExpense } from '../common/types/types';
 import { styles } from './HomePage.style';
@@ -62,13 +63,13 @@ export const HomePage = () => {
   }, [expenses, currentSearch]);
 
   return (
-    <View style={styles.root}>
+    <SafeAreaView style={styles.root}>
       <Text style={styles.title}>{t('totalBalance')}</Text>
       <Text style={styles.balanceText}>$11.200</Text>
       <View>
         <CreditCardList />
       </View>
       <ExpensesView fetchState={fetchState} expenses={filteredExpenses} />
-    </View>
+    </SafeAreaView>
   );
 };
