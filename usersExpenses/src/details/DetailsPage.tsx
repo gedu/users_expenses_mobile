@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Image, StatusBar, Text, TouchableOpacity, View } from 'react-native';
 import { CameraOptions, launchCamera } from 'react-native-image-picker';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import Toast from 'react-native-toast-message';
 import { backIcon, pictureIcon } from '../../assets/images';
 import { UseDetailsStore, useDetails } from '../common/store/useDetails';
+import { ReceiptPicture } from '../common/types/types';
 import { formatCurrency } from '../common/utils/currency';
 import { NavigationProps } from '../routes';
 import { Colors } from '../theme';
@@ -23,16 +25,35 @@ const cameraOptions: CameraOptions = {
 };
 
 export const DetailsPage = ({ navigation }: DetailsPageProps) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation(['common', 'errors']);
   const currentExpense = useDetails(currentExpenseStore);
-
+  const [receiptPic, setReceiptPic] = useState<ReceiptPicture | null>(null);
   const handleBack = () => {
     navigation.goBack();
   };
 
   const handleAddPicture = async () => {
-    const pictureRes = await launchCamera(cameraOptions);
-    console.log('PIC: ', pictureRes);
+    try {
+      const pictureRes = await launchCamera(cameraOptions);
+      //todo: handle error cases
+      if (pictureRes.assets && pictureRes.assets.length > 0) {
+        const { fileName, type, uri } = pictureRes.assets[0];
+        if (type && uri) {
+          setReceiptPic({
+            name: fileName || 'receipt',
+            type,
+            uri,
+          });
+        }
+      }
+    } catch (error) {
+      console.log('Launch Camera error: ', error);
+      Toast.show({
+        type: 'error',
+        position: 'bottom',
+        text1: t('errors:openCamera'),
+      });
+    }
   };
 
   return (
@@ -52,23 +73,33 @@ export const DetailsPage = ({ navigation }: DetailsPageProps) => {
           <Text style={styles.commentTitle}>Comments</Text>
           <TouchableOpacity>
             <Text style={styles.addActionText}>
-              {t('add').toLocaleUpperCase()}
+              {t('common:add').toLocaleUpperCase()}
             </Text>
           </TouchableOpacity>
         </View>
         <Text style={styles.commentText}>
-          {currentExpense.comment || t('noComments')}
+          {currentExpense.comment || t('common:noComments')}
         </Text>
         <View style={styles.headerContainer}>
-          <Text style={styles.receiptTitle}>{t('receipt')}</Text>
+          <Text style={styles.receiptTitle}>{t('common:receipt')}</Text>
           <TouchableOpacity onPress={handleAddPicture}>
             <Text style={styles.addActionText}>
-              {t('add').toLocaleUpperCase()}
+              {t('common:add').toLocaleUpperCase()}
             </Text>
           </TouchableOpacity>
         </View>
         <View style={styles.receiptPictureContainer}>
-          <Image style={styles.receiptImage} source={pictureIcon} />
+          {receiptPic ? (
+            <TouchableOpacity style={styles.receiptButton}>
+              <Image
+                style={styles.receiptPicture}
+                resizeMode="cover"
+                source={{ uri: receiptPic.uri }}
+              />
+            </TouchableOpacity>
+          ) : (
+            <Image style={styles.receiptEmptyIcon} source={pictureIcon} />
+          )}
         </View>
       </View>
     </SafeAreaView>

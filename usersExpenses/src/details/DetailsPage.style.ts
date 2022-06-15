@@ -1,7 +1,7 @@
 import { Dimensions, StyleSheet } from 'react-native';
 import { Colors, typography } from '../theme';
 
-const { height } = Dimensions.get('window');
+const { width } = Dimensions.get('window');
 
 export const styles = StyleSheet.create({
   root: {
@@ -51,19 +51,26 @@ export const styles = StyleSheet.create({
     marginTop: 24,
   },
   receiptPictureContainer: {
-    height: height * 0.3,
-    minHeight: height * 0.2,
+    height: width * 0.7,
     borderWidth: 1,
     borderColor: Colors.black50,
     borderRadius: 8,
     alignItems: 'center',
     justifyContent: 'center',
-    padding: 16,
     marginTop: 24,
   },
-  receiptImage: {
+  receiptEmptyIcon: {
     width: 64,
     height: 64,
     tintColor: Colors.black50,
+  },
+  receiptButton: {
+    width: '100%',
+    height: '100%',
+  },
+  receiptPicture: {
+    width: '100%',
+    height: '100%',
+    borderRadius: 8,
   },
 });

@@ -6,6 +6,12 @@ export type UserExpense = {
   last: string;
 };
 
+export type ReceiptPicture = {
+  name: string;
+  type: string;
+  uri: string;
+};
+
 export type Expense = {
   amount: {
     currency: CurrencyCode;

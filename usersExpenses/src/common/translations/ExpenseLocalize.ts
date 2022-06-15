@@ -9,8 +9,6 @@ const LANGUAGES = {
   en,
 };
 
-const LANGUAGES_CODE = Object.keys(LANGUAGES);
-
 i18n.use(initReactI18next).init({
   resources: LANGUAGES,
   fallbackLng: 'en',
