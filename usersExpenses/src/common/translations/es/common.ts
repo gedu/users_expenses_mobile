@@ -7,4 +7,5 @@ export default {
   noComments: 'Sin comentarios',
   receipt: 'Recibo',
   add: 'Agregar',
+  comments: 'Notas',
 };

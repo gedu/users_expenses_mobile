@@ -7,4 +7,5 @@ export default {
   noComments: 'No Comments',
   receipt: 'Receipt',
   add: 'Add',
+  comments: 'Comments',
 };

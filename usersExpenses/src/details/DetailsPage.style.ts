@@ -18,7 +18,7 @@ export const styles = StyleSheet.create({
     tintColor: Colors.black50,
   },
   content: {
-    margin: 16,
+    paddingHorizontal: 16,
   },
   title: {
     ...typography.headlineBig,
@@ -51,13 +51,14 @@ export const styles = StyleSheet.create({
     marginTop: 24,
   },
   receiptPictureContainer: {
-    height: width * 0.7,
+    height: width,
     borderWidth: 1,
     borderColor: Colors.black50,
     borderRadius: 8,
     alignItems: 'center',
     justifyContent: 'center',
     marginTop: 24,
+    marginBottom: 16,
   },
   receiptEmptyIcon: {
     width: 64,

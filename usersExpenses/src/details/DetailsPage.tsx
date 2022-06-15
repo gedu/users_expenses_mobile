@@ -1,16 +1,25 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Image, StatusBar, Text, TouchableOpacity, View } from 'react-native';
+import {
+  Image,
+  ScrollView,
+  StatusBar,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import { CameraOptions, launchCamera } from 'react-native-image-picker';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Toast from 'react-native-toast-message';
-import { backIcon, pictureIcon } from '../../assets/images';
+import { pictureIcon } from '../../assets/images';
 import { UseDetailsStore, useDetails } from '../common/store/useDetails';
 import { ReceiptPicture } from '../common/types/types';
 import { formatCurrency } from '../common/utils/currency';
+import { BackHeader } from '../common/widgets/BackHeader';
 import { NavigationProps } from '../routes';
 import { Colors } from '../theme';
 import { styles } from './DetailsPage.style';
+import { SectionHeader } from './section-header/SectionHeader';
 
 type DetailsPageProps = {
   navigation: NavigationProps['Details'];
@@ -28,8 +37,11 @@ export const DetailsPage = ({ navigation }: DetailsPageProps) => {
   const { t } = useTranslation(['common', 'errors']);
   const currentExpense = useDetails(currentExpenseStore);
   const [receiptPic, setReceiptPic] = useState<ReceiptPicture | null>(null);
-  const handleBack = () => {
-    navigation.goBack();
+
+  const handlePicturePress = () => {
+    if (receiptPic?.uri) {
+      navigation.navigate('Picture', { uri: receiptPic.uri });
+    }
   };
 
   const handleAddPicture = async () => {
@@ -59,38 +71,31 @@ export const DetailsPage = ({ navigation }: DetailsPageProps) => {
   return (
     <SafeAreaView style={styles.root}>
       <StatusBar backgroundColor={Colors.teaGreen} />
-      <TouchableOpacity style={styles.backButton} onPress={handleBack}>
-        <Image style={styles.iconImage} source={backIcon} />
-      </TouchableOpacity>
+      <BackHeader />
 
-      <View style={styles.content}>
+      <ScrollView style={styles.content}>
         <Text style={styles.title}>{currentExpense.user.first}</Text>
         <Text style={styles.title}>{currentExpense.user.last}</Text>
         <Text style={styles.amount}>
           {formatCurrency(currentExpense.amount)}
         </Text>
-        <View style={styles.headerContainer}>
-          <Text style={styles.commentTitle}>Comments</Text>
-          <TouchableOpacity>
-            <Text style={styles.addActionText}>
-              {t('common:add').toLocaleUpperCase()}
-            </Text>
-          </TouchableOpacity>
-        </View>
+        <SectionHeader
+          title={t('common:comments')}
+          onActionPress={handleAddPicture}
+        />
         <Text style={styles.commentText}>
           {currentExpense.comment || t('common:noComments')}
         </Text>
-        <View style={styles.headerContainer}>
-          <Text style={styles.receiptTitle}>{t('common:receipt')}</Text>
-          <TouchableOpacity onPress={handleAddPicture}>
-            <Text style={styles.addActionText}>
-              {t('common:add').toLocaleUpperCase()}
-            </Text>
-          </TouchableOpacity>
-        </View>
+
+        <SectionHeader
+          title={t('common:receipt')}
+          onActionPress={handleAddPicture}
+        />
         <View style={styles.receiptPictureContainer}>
           {receiptPic ? (
-            <TouchableOpacity style={styles.receiptButton}>
+            <TouchableOpacity
+              style={styles.receiptButton}
+              onPress={handlePicturePress}>
               <Image
                 style={styles.receiptPicture}
                 resizeMode="cover"
@@ -101,7 +106,7 @@ export const DetailsPage = ({ navigation }: DetailsPageProps) => {
             <Image style={styles.receiptEmptyIcon} source={pictureIcon} />
           )}
         </View>
-      </View>
+      </ScrollView>
     </SafeAreaView>
   );
 };
