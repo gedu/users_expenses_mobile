@@ -14,7 +14,7 @@ export const SplashPage = ({ navigation }: SplashPageProps) => {
   const { t } = useTranslation();
   useEffect(() => {
     const cancelId = setTimeout(() => {
-      navigation.navigate('Home');
+      navigation.replace('Home');
     }, 3000);
     return () => {
       clearTimeout(cancelId);

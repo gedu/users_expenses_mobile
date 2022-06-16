@@ -1,7 +1,10 @@
+import dayjs from 'dayjs';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
   Image,
+  PermissionsAndroid,
+  Platform,
   ScrollView,
   StatusBar,
   Text,
@@ -12,7 +15,9 @@ import { CameraOptions, launchCamera } from 'react-native-image-picker';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Toast from 'react-native-toast-message';
 import { pictureIcon } from '../../assets/images';
-import { UseDetailsStore, useDetails } from '../common/store/useDetails';
+import { StoreResponse } from '../common/api/model/netState';
+import { UseDetailsStore } from '../common/store/createDetailsSlice';
+import { useStore } from '../common/store/useStore';
 import { ReceiptPicture } from '../common/types/types';
 import { formatCurrency } from '../common/utils/currency';
 import { BackHeader } from '../common/widgets/BackHeader';
@@ -26,17 +31,26 @@ type DetailsPageProps = {
 };
 
 const currentExpenseStore = (store: UseDetailsStore) => store.currentExpense!;
+const uploadPictureStore = (store: UseDetailsStore) => store.uploadPicture!;
+
+const fileNameFormat = 'MMDDYYHHmm';
 const cameraOptions: CameraOptions = {
   mediaType: 'photo',
   quality: 1,
   maxHeight: 512,
   maxWidth: 512,
+  includeBase64: Platform.OS === 'ios',
+  saveToPhotos: false,
 };
 
 export const DetailsPage = ({ navigation }: DetailsPageProps) => {
   const { t } = useTranslation(['common', 'errors']);
-  const currentExpense = useDetails(currentExpenseStore);
+  const currentExpense = useStore(currentExpenseStore);
+  const uploadPicture = useStore(uploadPictureStore);
   const [receiptPic, setReceiptPic] = useState<ReceiptPicture | null>(null);
+  const [pictureUploadState, setPictureUploadState] = useState<StoreResponse>({
+    state: 'idle',
+  });
 
   const handlePicturePress = () => {
     if (receiptPic?.uri) {
@@ -46,16 +60,36 @@ export const DetailsPage = ({ navigation }: DetailsPageProps) => {
 
   const handleAddPicture = async () => {
     try {
+      let canLaunchCamera = true;
+      if (Platform.OS === 'android') {
+        const hasStoragePermission = await PermissionsAndroid.check(
+          PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
+        );
+
+        if (!hasStoragePermission) {
+          const permissionResults = await PermissionsAndroid.request(
+            PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
+          );
+          canLaunchCamera = permissionResults === 'granted';
+        }
+      }
+      if (!canLaunchCamera) {
+        return;
+      }
+
       const pictureRes = await launchCamera(cameraOptions);
       //todo: handle error cases
       if (pictureRes.assets && pictureRes.assets.length > 0) {
-        const { fileName, type, uri } = pictureRes.assets[0];
+        const { type, uri, base64 } = pictureRes.assets[0];
         if (type && uri) {
-          setReceiptPic({
-            name: fileName || 'receipt',
+          const picData = {
+            name: dayjs().format(fileNameFormat) + '.jpg',
             type,
             uri,
-          });
+            data: base64,
+          };
+          setReceiptPic(picData);
+          uploadPicture(picData, setPictureUploadState);
         }
       }
     } catch (error) {
@@ -95,9 +129,13 @@ export const DetailsPage = ({ navigation }: DetailsPageProps) => {
           {receiptPic ? (
             <TouchableOpacity
               style={styles.receiptButton}
-              onPress={handlePicturePress}>
+              onPress={handlePicturePress}
+              disabled={pictureUploadState.state === 'loading'}>
               <Image
-                style={styles.receiptPicture}
+                style={[
+                  styles.receiptPicture,
+                  { opacity: pictureUploadState.state === 'loading' ? 0.5 : 1 },
+                ]}
                 resizeMode="cover"
                 source={{ uri: receiptPic.uri }}
               />

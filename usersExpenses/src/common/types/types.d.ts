@@ -7,6 +7,7 @@ export type UserExpense = {
 };
 
 export type ReceiptPicture = {
+  data?: string;
   name: string;
   type: string;
   uri: string;

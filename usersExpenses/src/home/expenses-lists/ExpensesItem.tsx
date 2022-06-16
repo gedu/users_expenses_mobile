@@ -3,7 +3,8 @@ import dayjs from 'dayjs';
 import React from 'react';
 import { Image, Text, TouchableOpacity, View } from 'react-native';
 import { moneyIcon } from '../../../assets/images';
-import { UseDetailsStore, useDetails } from '../../common/store/useDetails';
+import { UseDetailsStore } from '../../common/store/createDetailsSlice';
+import { useStore } from '../../common/store/useStore';
 import { Expense } from '../../common/types/types';
 import { formatCurrency } from '../../common/utils/currency';
 import { NavigationProps } from '../../routes';
@@ -35,7 +36,7 @@ const CommentField = ({ comment }: CommentFieldProps) => {
 };
 
 export const ExpensesItem = ({ expense }: ExpensesItemProps) => {
-  const cacheCurrent = useDetails(cacheCurrentStore);
+  const cacheCurrent = useStore(cacheCurrentStore);
   const navigation = useNavigation<NavigationProps['Home']>();
   const fullName = `${expense.user.first} ${expense.user.last}`;
   const handleExpensePress = () => {

@@ -3,13 +3,14 @@ import { useTranslation } from 'react-i18next';
 import { Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { StoreResponse } from '../common/api/model/netState';
+import { UseExpensesStore } from '../common/store/createExpenseSlice';
+import { useStore } from '../common/store/useStore';
 import { Expense, UserExpense } from '../common/types/types';
 import { styles } from './HomePage.style';
 import { CreditCardList } from './credit-card-list/CreditCardList';
 
 import { ExpensesList } from './expenses-lists/ExpensesList';
 import { ExpensesLoading } from './expenses-loading/ExpensesLoading';
-import { UseExpensesStore, useExpenses } from './store/useExpenses';
 
 type ExpensesViewProps = {
   expenses: Expense[];
@@ -48,9 +49,9 @@ export const HomePage = () => {
   const [fetchState, setFetchState] = useState<StoreResponse>({
     state: 'idle',
   });
-  const loadExpenses = useExpenses(loadExpensesStore);
-  const expenses = useExpenses(expensesStore);
-  const currentSearch = useExpenses(currentSearchStore);
+  const loadExpenses = useStore(loadExpensesStore);
+  const expenses = useStore(expensesStore);
+  const currentSearch = useStore(currentSearchStore);
 
   useEffect(() => {
     loadExpenses(setFetchState);

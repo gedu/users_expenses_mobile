@@ -1,5 +1,4 @@
-import debounce from 'lodash.debounce';
-import React, { useState } from 'react';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
 import {
   Image,
@@ -9,7 +8,8 @@ import {
   View,
 } from 'react-native';
 import { searchIcon } from '../../../assets/images';
-import { UseExpensesStore, useExpenses } from '../store/useExpenses';
+import { UseExpensesStore } from '../../common/store/createExpenseSlice';
+import { useStore } from '../../common/store/useStore';
 import { styles } from './SearchBox.style';
 
 const addQueryStore = (store: UseExpensesStore) => store.addQuery;
@@ -17,8 +17,8 @@ const currentSearchStore = (store: UseExpensesStore) => store.currentSearch;
 
 export const SearchBox = () => {
   const { t } = useTranslation();
-  const addQuery = useExpenses(addQueryStore);
-  const currentSearch = useExpenses(currentSearchStore);
+  const addQuery = useStore(addQueryStore);
+  const currentSearch = useStore(currentSearchStore);
 
   const handleSearch = ({
     nativeEvent: { text },
