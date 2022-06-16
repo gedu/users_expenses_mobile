@@ -24,6 +24,7 @@ import { BackHeader } from '../common/widgets/BackHeader';
 import { NavigationProps } from '../routes';
 import { Colors } from '../theme';
 import { styles } from './DetailsPage.style';
+import CommentDialogModule from './comment-dialog/commentDialogModule';
 import { SectionHeader } from './section-header/SectionHeader';
 
 type DetailsPageProps = {
@@ -56,6 +57,12 @@ export const DetailsPage = ({ navigation }: DetailsPageProps) => {
     if (receiptPic?.uri) {
       navigation.navigate('Picture', { uri: receiptPic.uri });
     }
+  };
+
+  const handleAddComment = () => {
+    CommentDialogModule.showDialog('', (input: string, error?: string) => {
+      console.log('INPUT: ', input, error);
+    });
   };
 
   const handleAddPicture = async () => {
@@ -115,7 +122,7 @@ export const DetailsPage = ({ navigation }: DetailsPageProps) => {
         </Text>
         <SectionHeader
           title={t('common:comments')}
-          onActionPress={handleAddPicture}
+          onActionPress={handleAddComment}
         />
         <Text style={styles.commentText}>
           {currentExpense.comment || t('common:noComments')}

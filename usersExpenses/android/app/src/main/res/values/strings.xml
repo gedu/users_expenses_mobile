@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Receipt All</string>
+    <string name="comments">Comments</string>
+    <string name="write_your_comment">Write your comment</string>
+    <string name="save">Save</string>
+    <string name="cancel">Cancel</string>
 </resources>

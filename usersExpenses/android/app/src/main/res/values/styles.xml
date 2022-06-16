@@ -6,4 +6,14 @@
         <item name="android:editTextBackground">@drawable/rn_edit_text_material</item>
     </style>
 
+    <style name="BaseButton" parent="TextAppearance.MaterialComponents.Button">
+        <item name="android:backgroundTint">@color/positive_action_button_states</item>
+        <item name="android:fontFamily">@font/quicksand_bold</item>
+    </style>
+
+    <style name="HeadlineMedium">
+        <item name="android:textSize">18sp</item>
+        <item name="android:fontFamily">@font/quicksand_bold</item>
+    </style>
+
 </resources>
