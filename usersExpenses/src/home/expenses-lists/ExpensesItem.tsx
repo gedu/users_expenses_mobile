@@ -2,7 +2,7 @@ import { useNavigation } from '@react-navigation/native';
 import dayjs from 'dayjs';
 import React from 'react';
 import { Image, Text, TouchableOpacity, View } from 'react-native';
-import { moneyIcon } from '../../../assets/images';
+import { moneyIcon, receiptIcon } from '../../../assets/images';
 import { UseDetailsStore } from '../../common/store/createDetailsSlice';
 import { useStore } from '../../common/store/useStore';
 import { Expense } from '../../common/types/types';
@@ -51,9 +51,14 @@ export const ExpensesItem = ({ expense }: ExpensesItemProps) => {
       </View>
       <View style={styles.cardHeader}>
         <Text style={styles.fullName}>{fullName}</Text>
-        <Text style={styles.expenseAmount}>
-          {formatCurrency(expense.amount)}
-        </Text>
+        <View style={styles.currencyContainer}>
+          <Text style={styles.expenseAmount}>
+            {formatCurrency(expense.amount)}
+          </Text>
+          {expense.receipts.length > 0 ? (
+            <Image style={styles.receiptIcon} source={receiptIcon} />
+          ) : null}
+        </View>
       </View>
       <View style={styles.cardHeader}>
         <Text style={styles.secondaryText}>{expense.merchant}</Text>

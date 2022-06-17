@@ -27,6 +27,22 @@ export const fetchExpenses = async (
   }
 };
 
+export const uploadComment = async (
+  expenseId: string,
+  comment: string,
+): Promise<ExpenseResponse> => {
+  const response = await api.post<Expense>(`/expenses/${expenseId}`, {
+    comment,
+  });
+
+  console.log('comment data: ', response.data);
+  if (response.data) {
+    return { expense: response.data };
+  } else {
+    return { expense: {} as Expense, error: 'Something went wrong' };
+  }
+};
+
 export const uploadReciept = async (
   expenseId: string,
   picture: ReceiptPicture,
@@ -39,7 +55,7 @@ export const uploadReciept = async (
   });
 
   try {
-    const response = await api.post<ExpenseResponse>(
+    const response = await api.post<Expense>(
       `/expenses/${expenseId}/receipts`,
       data,
       {
@@ -49,10 +65,10 @@ export const uploadReciept = async (
         },
       },
     );
-    console.log('RESPONSE: ', response.data);
-    console.log('RESPONSE exp: ', response.data.expense);
+
+    console.log('RESPONSE exp: ', response.data);
     if (response.data) {
-      return { expense: response.data.expense };
+      return { expense: response.data };
     } else {
       return { expense: {} as Expense, error: 'Something went wrong' };
     }

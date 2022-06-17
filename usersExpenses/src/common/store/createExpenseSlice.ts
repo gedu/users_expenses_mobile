@@ -1,5 +1,6 @@
+import produce from 'immer';
 import { Dispatch, SetStateAction } from 'react';
-import { SetState } from 'zustand';
+import { GetState, SetState } from 'zustand';
 import { fetchExpenses } from '../api/expenses/expensesRemoteSource';
 import { StoreResponse } from '../api/model/netState';
 import { Expense } from '../types/types';
@@ -10,10 +11,12 @@ export type UseExpensesStore = {
   currentSearch?: string;
   expenses: Expense[];
   loadExpenses: (setState: Dispatch<SetStateAction<StoreResponse>>) => void;
+  updateExpense: (expense: Expense) => void;
 };
 
 export const createExpensesSlice: StoreSlice<UseExpensesStore> = (
   set: SetState<UseExpensesStore>,
+  get: GetState<UseExpensesStore>,
 ) => ({
   expenses: [],
   currentSearch: undefined,
@@ -36,5 +39,18 @@ export const createExpensesSlice: StoreSlice<UseExpensesStore> = (
   },
   addQuery: (query: string) => {
     set({ currentSearch: query.length === 0 ? undefined : query });
+  },
+  updateExpense: (newExpense: Expense) => {
+    const updatedExpenses = produce(get().expenses, draft => {
+      const expenseToUpdate = draft.find(
+        expense => expense.id === newExpense.id,
+      );
+      if (expenseToUpdate) {
+        expenseToUpdate.receipts = newExpense.receipts;
+        expenseToUpdate.comment = newExpense.comment;
+      }
+    });
+
+    set({ expenses: updatedExpenses });
   },
 });

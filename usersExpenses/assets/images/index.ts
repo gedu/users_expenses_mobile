@@ -5,3 +5,4 @@ export { default as searchIcon } from './icons/ic_search.png';
 export { default as backIcon } from './icons/ic_back.png';
 export { default as addIcon } from './icons/ic_add.png';
 export { default as pictureIcon } from './icons/ic_picture.png';
+export { default as receiptIcon } from './icons/ic_receipt_ok.png';

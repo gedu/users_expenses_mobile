@@ -33,6 +33,7 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+    marginTop: 24,
   },
   addActionText: {
     ...typography.bodyMediumBold,
@@ -48,7 +49,6 @@ export const styles = StyleSheet.create({
   },
   receiptTitle: {
     ...typography.bodyMediumBold,
-    marginTop: 24,
   },
   receiptPictureContainer: {
     height: width,

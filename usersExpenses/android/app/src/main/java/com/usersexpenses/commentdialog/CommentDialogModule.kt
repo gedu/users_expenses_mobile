@@ -1,10 +1,7 @@
 package com.usersexpenses.commentdialog
 
 import androidx.appcompat.app.AppCompatActivity
-import com.facebook.react.bridge.Callback
-import com.facebook.react.bridge.ReactApplicationContext
-import com.facebook.react.bridge.ReactContextBaseJavaModule
-import com.facebook.react.bridge.ReactMethod
+import com.facebook.react.bridge.*
 
 class CommentDialogModule(reactContext: ReactApplicationContext) :
     ReactContextBaseJavaModule(reactContext) {
@@ -13,9 +10,9 @@ class CommentDialogModule(reactContext: ReactApplicationContext) :
     override fun getName() = "CommentDialogModule"
 
     @ReactMethod
-    fun showDialog(currentText: String, response: Callback) {
+    fun showDialog(currentText: String, response: Promise) {
         currentActivity?.let {
-            CommentDialogFragment(response).show(
+            CommentDialogFragment(currentText, response).show(
                 (it as AppCompatActivity).supportFragmentManager,
                 dialogTag
             )

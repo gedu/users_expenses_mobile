@@ -27,6 +27,11 @@ export const styles = StyleSheet.create({
     width: 22,
     height: 22,
   },
+  receiptIcon: {
+    width: 20,
+    height: 20,
+    marginStart: 8,
+  },
   cardHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -35,6 +40,10 @@ export const styles = StyleSheet.create({
   fullName: {
     ...typography.bodyLarge,
     color: Colors.black,
+  },
+  currencyContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   expenseAmount: {
     ...typography.bodyMediumBold,

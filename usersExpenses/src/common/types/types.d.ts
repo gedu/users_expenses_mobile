@@ -13,6 +13,10 @@ export type ReceiptPicture = {
   uri: string;
 };
 
+export type PictureUrl = {
+  url: string;
+};
+
 export type Expense = {
   amount: {
     currency: CurrencyCode;
@@ -23,7 +27,7 @@ export type Expense = {
   date: string;
   id: string;
   merchant: string;
-  receipts: unknown[];
+  receipts: PictureUrl[];
   user: UserExpense;
 };
 
