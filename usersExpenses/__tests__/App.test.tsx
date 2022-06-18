@@ -35,6 +35,8 @@ jest.mock('react-i18next', () => ({
   },
 }));
 
-it('renders correctly', () => {
-  render(<App />);
+describe('<App />', () => {
+  it('renders correctly', () => {
+    render(<App />);
+  });
 });

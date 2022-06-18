@@ -9,7 +9,6 @@ import { StoreSlice } from './useStore';
 export type UseExpensesStore = {
   addQuery: (query: string) => void;
   canLoadMore: () => boolean;
-
   currentSearch?: string;
   expenses: Expense[];
   loadExpenses: (
@@ -32,7 +31,7 @@ export const createExpensesSlice: StoreSlice<UseExpensesStore> = (
     try {
       setState({ state: 'loading' });
       const res = await fetchExpenses(get().expenses.length);
-
+      console.log('RES: ', res);
       if (res.error) {
         setState({ state: 'error', msg: res.error });
       } else {
