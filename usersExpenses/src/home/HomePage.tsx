@@ -9,6 +9,7 @@ import { Expense, UserExpense } from '../common/types/types';
 import { styles } from './HomePage.style';
 import { CreditCardList } from './credit-card-list/CreditCardList';
 
+import { ExpensesError } from './expenses-error/ExpensesError';
 import { ExpensesList } from './expenses-lists/ExpensesList';
 import { ExpensesLoading } from './expenses-loading/ExpensesLoading';
 
@@ -36,9 +37,8 @@ const ExpensesView = ({ fetchState, expenses }: ExpensesViewProps) => {
     return <ExpensesLoading />;
   }
 
-  //todo: updated error state
   if (fetchState.state === 'error') {
-    return <Text>{fetchState.msg}</Text>;
+    return <ExpensesError />;
   }
 
   return <ExpensesList expenses={expenses} />;
