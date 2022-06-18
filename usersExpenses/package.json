@@ -33,6 +33,8 @@
     "@babel/core": "^7.12.9",
     "@babel/runtime": "^7.12.5",
     "@react-native-community/eslint-config": "^2.0.0",
+    "@testing-library/jest-native": "^4.0.5",
+    "@testing-library/react-native": "^9.1.0",
     "@types/jest": "^26.0.23",
     "@types/lodash.debounce": "^4.0.7",
     "@types/react-native": "^0.67.3",
@@ -55,6 +57,9 @@
   },
   "jest": {
     "preset": "react-native",
+    "setupFilesAfterEnv": [
+      "@testing-library/jest-native/extend-expect"
+    ],
     "moduleFileExtensions": [
       "ts",
       "tsx",
@@ -62,6 +67,12 @@
       "jsx",
       "json",
       "node"
+    ],
+    "transformIgnorePatterns": [
+      "node_modules/(?!(jest-)?react-native|react-clone-referenced-element|@react-native-community|rollbar-react-native|@fortawesome|@react-native|@react-navigation)"
+    ],
+    "setupFiles": [
+      "./mocks.js"
     ]
   }
 }
