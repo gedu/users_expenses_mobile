@@ -1,5 +1,3 @@
-import errors from '../../translations/en/errors';
-
 type Concrete<Type> = {
   [Property in keyof Type]: Type[Property];
 };
@@ -12,6 +10,6 @@ export type StoreResponse =
       state: Exclude<NetState, 'error'>;
     }
   | {
-      msg: Concrete<typeof errors>;
+      msg: string;
       state: Extract<NetState, 'error'>;
     };

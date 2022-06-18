@@ -46,7 +46,7 @@ const ExpensesView = ({ fetchState, expenses }: ExpensesViewProps) => {
 
 export const HomePage = () => {
   const { t } = useTranslation();
-  const [fetchState, setFetchState] = useState<StoreResponse>({
+  const [initialFetchState, setInitialFetchState] = useState<StoreResponse>({
     state: 'idle',
   });
   const loadExpenses = useStore(loadExpensesStore);
@@ -54,7 +54,7 @@ export const HomePage = () => {
   const currentSearch = useStore(currentSearchStore);
 
   useEffect(() => {
-    loadExpenses(setFetchState);
+    loadExpenses(setInitialFetchState);
   }, [loadExpenses]);
 
   const filteredExpenses = useMemo(() => {
@@ -70,7 +70,10 @@ export const HomePage = () => {
       <View>
         <CreditCardList />
       </View>
-      <ExpensesView fetchState={fetchState} expenses={filteredExpenses} />
+      <ExpensesView
+        fetchState={initialFetchState}
+        expenses={filteredExpenses}
+      />
     </SafeAreaView>
   );
 };

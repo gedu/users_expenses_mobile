@@ -8,9 +8,15 @@ import { StoreSlice } from './useStore';
 
 export type UseExpensesStore = {
   addQuery: (query: string) => void;
+  canLoadMore: () => boolean;
+
   currentSearch?: string;
   expenses: Expense[];
-  loadExpenses: (setState: Dispatch<SetStateAction<StoreResponse>>) => void;
+  loadExpenses: (
+    setState: Dispatch<SetStateAction<StoreResponse>>,
+    page?: number,
+  ) => void;
+  totalExpenses: number;
   updateExpense: (expense: Expense) => void;
 };
 
@@ -20,22 +26,32 @@ export const createExpensesSlice: StoreSlice<UseExpensesStore> = (
 ) => ({
   expenses: [],
   currentSearch: undefined,
+  totalExpenses: -1,
 
   loadExpenses: async (setState: Dispatch<SetStateAction<StoreResponse>>) => {
     try {
       setState({ state: 'loading' });
-      const res = await fetchExpenses(25, 0);
-      console.log('RES bla: ', res);
+      const res = await fetchExpenses(get().expenses.length);
+
       if (res.error) {
         setState({ state: 'error', msg: res.error });
       } else {
-        set({ expenses: res.expenses });
+        if (get().totalExpenses === -1) {
+          set({ totalExpenses: res.total });
+        }
+        set({
+          expenses: produce(get().expenses, draft => {
+            draft.push(...res.expenses);
+          }),
+        });
         setState({ state: 'success' });
       }
     } catch (error) {
-      setState({ state: 'error', msg: 'Something went wrong' });
-      console.log('Loading Expenses error:', error);
+      setState({ state: 'error', msg: 'unspecified' });
     }
+  },
+  canLoadMore: () => {
+    return get().expenses.length < get().totalExpenses;
   },
   addQuery: (query: string) => {
     set({ currentSearch: query.length === 0 ? undefined : query });

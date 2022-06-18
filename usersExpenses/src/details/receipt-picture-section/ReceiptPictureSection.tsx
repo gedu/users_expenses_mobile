@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import dayjs from 'dayjs';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';

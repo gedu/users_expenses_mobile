@@ -22,6 +22,9 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: Colors.black50,
   },
+  loadingMoreContainer: {
+    justifyContent: 'center',
+  },
   moneyIcon: {
     opacity: 0.8,
     width: 22,

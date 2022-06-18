@@ -1,6 +1,15 @@
-import React from 'react';
-import { FlatList, ListRenderItem } from 'react-native';
+import React, { useState } from 'react';
+import {
+  ActivityIndicator,
+  FlatList,
+  ListRenderItem,
+  View,
+} from 'react-native';
+import { StoreResponse } from '../../common/api/model/netState';
+import { UseExpensesStore } from '../../common/store/createExpenseSlice';
+import { useStore } from '../../common/store/useStore';
 import { Expense } from '../../common/types/types';
+import { Colors } from '../../theme';
 import { SearchBox } from '../search-box/SearchBox';
 import { EmptySearch } from './EmptySearch';
 import { ExpensesItem } from './ExpensesItem';
@@ -10,17 +19,43 @@ type ExpensesListProps = {
   expenses: Expense[];
 };
 
+const loadExpensesStore = (store: UseExpensesStore) => store.loadExpenses;
+const canLoadMoreStore = (store: UseExpensesStore) => store.canLoadMore;
+
+const FooterListItem = ({ isLoading }: { isLoading: boolean }) => {
+  return isLoading ? (
+    <View style={styles.loadingMoreContainer}>
+      <ActivityIndicator color={Colors.amber} size="large" />
+    </View>
+  ) : null;
+};
+
 export const ExpensesList = ({ expenses }: ExpensesListProps) => {
+  const loadExpenses = useStore(loadExpensesStore);
+  const canLoadMore = useStore(canLoadMoreStore);
+  const [loadMore, setLoadMore] = useState<StoreResponse>({ state: 'idle' });
   const renderItem: ListRenderItem<Expense> = ({ item }) => (
     <ExpensesItem expense={item} />
   );
+
+  const onFetchMore = () => {
+    if (canLoadMore() && loadMore.state !== 'loading') {
+      loadExpenses(setLoadMore);
+    }
+  };
+
   return (
     <>
       <FlatList
         contentContainerStyle={styles.listContainer}
         data={expenses}
         renderItem={renderItem}
+        onEndReachedThreshold={0.3}
+        onEndReached={onFetchMore}
         ListEmptyComponent={<EmptySearch />}
+        ListFooterComponent={
+          <FooterListItem isLoading={loadMore.state === 'loading'} />
+        }
       />
       <SearchBox />
     </>

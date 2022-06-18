@@ -4,6 +4,7 @@ import api from '../index';
 export type ExpensesResponse = {
   error?: string;
   expenses: Expense[];
+  total: number;
 };
 
 export type ExpenseResponse = {
@@ -12,8 +13,8 @@ export type ExpenseResponse = {
 };
 
 export const fetchExpenses = async (
-  limit: number,
   offset: number,
+  limit: number = 25,
 ): Promise<ExpensesResponse> => {
   const response = await api.get<ExpensesResponse>('/expenses', {
     params: { limit, offset },
@@ -21,9 +22,13 @@ export const fetchExpenses = async (
 
   //todo: handle better with status too
   if (response.data) {
-    return { expenses: response.data.expenses, error: undefined };
+    return {
+      expenses: response.data.expenses,
+      total: response.data.total,
+      error: undefined,
+    };
   } else {
-    return { expenses: [], error: 'Something went wrong' };
+    return { expenses: [], total: 0, error: 'Something went wrong' };
   }
 };
 
@@ -35,7 +40,6 @@ export const uploadComment = async (
     comment,
   });
 
-  console.log('comment data: ', response.data);
   if (response.data) {
     return { expense: response.data };
   } else {
@@ -66,7 +70,6 @@ export const uploadReciept = async (
       },
     );
 
-    console.log('RESPONSE exp: ', response.data);
     if (response.data) {
       return { expense: response.data };
     } else {
