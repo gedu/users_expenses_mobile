@@ -15,8 +15,6 @@ const navTheme = {
   colors: { background: Colors.white },
 } as Theme;
 
-jest.mock('react-native/Libraries/Animated/NativeAnimatedHelper');
-
 const App = () => {
   return (
     <NavigationContainer theme={navTheme}>

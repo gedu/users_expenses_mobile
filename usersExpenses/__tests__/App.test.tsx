@@ -4,6 +4,8 @@ import React from 'react';
 
 import App from '../src/App';
 
+jest.mock('react-native/Libraries/Animated/NativeAnimatedHelper');
+
 jest.mock('react-native-toast-message', () => {
   const RealComponent = jest.requireActual('react-native-toast-message');
   const ReactInternal = require('react');

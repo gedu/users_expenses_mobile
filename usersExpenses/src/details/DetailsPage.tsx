@@ -11,7 +11,7 @@ import { BackHeader } from '../common/widgets/BackHeader';
 import { NavigationProps } from '../routes';
 import { Colors } from '../theme';
 import { styles } from './DetailsPage.style';
-import CommentDialogModule from './comment-dialog/commentDialogModule';
+import CommentDialogModule from './comment-dialog/commentDialogModule.android';
 import { ReceiptPictureSection } from './receipt-picture-section/ReceiptPictureSection';
 import { SectionHeader } from './section-header/SectionHeader';
 
