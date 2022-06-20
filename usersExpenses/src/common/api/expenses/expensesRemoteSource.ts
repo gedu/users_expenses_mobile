@@ -1,3 +1,4 @@
+import { Platform } from 'react-native';
 import { Expense, ReceiptPicture } from '../../types/types';
 import api from '../index';
 
@@ -53,7 +54,10 @@ export const uploadReciept = async (
 ): Promise<ExpenseResponse> => {
   const data = new FormData();
   data.append('receipt', {
-    uri: picture.uri,
+    uri:
+      Platform.OS === 'android'
+        ? picture.uri
+        : 'data:image/jpeg;base64,' + picture.data,
     name: picture.name,
     type: picture.type,
   });
