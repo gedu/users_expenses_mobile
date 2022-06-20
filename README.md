@@ -57,3 +57,17 @@ Want to go the extra mile? Here's few suggestion of things we'd like to see (or 
 ## Super important 👇
 
 Please note that while you are free to use libraries of your choosing, we encourage you to write at least some your own code. This is your chance to really impress us with your skills.
+
+## API
+
+- Go to the api folder
+- Install dependencies `yarn install`
+- Run it `yarn start`
+
+## Running the app on Android
+
+- Run first the API
+- Install dependencies with `yarn`
+- Then run `npx react-native run-android`
+
+Note: Sometimes it doesn't load the app into the emulator you can solve this running `adb reverse tcp:3000 tcp:3000`, you will need the `adb` in your PATH.
