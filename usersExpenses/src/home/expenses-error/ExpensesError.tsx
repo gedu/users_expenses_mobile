@@ -7,7 +7,7 @@ import { styles } from './ExpensesError.style';
 export const ExpensesError = () => {
   const { t } = useTranslation(['errors']);
   return (
-    <View style={styles.root}>
+    <View style={styles.root} testID="error-view">
       <LottieView
         style={styles.errorImg}
         source={require('../../../assets/anims/error_anim.json')}

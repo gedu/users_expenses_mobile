@@ -2,6 +2,7 @@ import {
   NativeStackScreenProps,
   createNativeStackNavigator,
 } from '@react-navigation/native-stack';
+import { ParamListBase } from '@react-navigation/routers/lib/typescript/src/types';
 import React from 'react';
 import { DetailsPage } from '../details/DetailsPage';
 import { PictureDetailsPage } from '../details/picture-details/PictureDetailsPage';
@@ -41,9 +42,17 @@ const mainOptions = {
   headerShown: false,
 };
 
-export const ExpensesRoutes = () => {
+type ExpensesRoutesProps = {
+  initialScreen?: keyof typeof RouteName;
+};
+
+export const ExpensesRoutes = ({
+  initialScreen = 'splash',
+}: ExpensesRoutesProps) => {
   return (
-    <Stack.Navigator screenOptions={mainOptions}>
+    <Stack.Navigator
+      screenOptions={mainOptions}
+      initialRouteName={RouteName[initialScreen]}>
       <Stack.Screen name={RouteName.splash} component={SplashPage} />
       <Stack.Screen name={RouteName.home} component={HomePage} />
       <Stack.Screen name={RouteName.details} component={DetailsPage} />

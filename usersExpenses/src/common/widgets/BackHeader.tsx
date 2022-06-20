@@ -10,7 +10,10 @@ export const BackHeader = () => {
     navigation.goBack();
   };
   return (
-    <TouchableOpacity style={styles.backButton} onPress={handleBack}>
+    <TouchableOpacity
+      style={styles.backButton}
+      onPress={handleBack}
+      testID="back-button">
       <Image style={styles.iconImage} source={backIcon} />
     </TouchableOpacity>
   );

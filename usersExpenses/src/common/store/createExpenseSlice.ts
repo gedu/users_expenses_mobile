@@ -30,8 +30,9 @@ export const createExpensesSlice: StoreSlice<UseExpensesStore> = (
   loadExpenses: async (setState: Dispatch<SetStateAction<StoreResponse>>) => {
     try {
       setState({ state: 'loading' });
+
       const res = await fetchExpenses(get().expenses.length);
-      console.log('RES: ', res);
+
       if (res.error) {
         setState({ state: 'error', msg: res.error });
       } else {

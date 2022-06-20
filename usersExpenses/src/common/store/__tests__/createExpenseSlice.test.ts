@@ -3,20 +3,15 @@
 import { waitFor } from '@testing-library/react-native';
 import create, { EqualityChecker, SetState, StateSelector } from 'zustand';
 import { ExpensesResponse } from '../../api/expenses/expensesRemoteSource';
+import { Expense } from '../../types/types';
+import { mockReturnValueOnce } from '../../utils/test-utils/mockUtils';
 
 import { UseExpensesStore, createExpensesSlice } from '../createExpenseSlice';
 
-const TOTAL_EXPENSES_AMOUNT = 168;
-
-jest.mock('../../api/expenses/expensesRemoteSource', () => ({
-  fetchExpenses: jest.fn(() =>
-    Promise.resolve<ExpensesResponse>({
-      expenses: [],
-      total: TOTAL_EXPENSES_AMOUNT,
-      error: undefined,
-    }),
-  ),
-}));
+type EachStoreProps = {
+  as: keyof UseExpensesStore;
+  expected: unknown;
+};
 
 describe('createExpenseSlice', () => {
   it.each`
@@ -26,20 +21,71 @@ describe('createExpenseSlice', () => {
     ${'totalExpenses'} | ${-1}
   `(
     'when expense slice is initialized $as should be $expected',
-    ({ as, expected }: { as: keyof UseExpensesStore; expected: unknown }) => {
+    ({ as, expected }: EachStoreProps) => {
       const store = create(createExpensesSlice);
 
       expect(store.getState()[as]).toStrictEqual(expected);
     },
   );
 
-  it('when loadExpenses gets called expenses, totalExpenses should be updated', () => {
+  it.each`
+    as                | expected
+    ${'totalExpense'} | ${168}
+    ${'expenses'}     | ${[{}, {}, {}]}
+  `(
+    'when loadExpenses gets called $totalExpense should be $expected',
+    async ({ as, expected }: EachStoreProps) => {
+      const TOTAL_EXPENSES_AMOUNT = 168;
+      jest.mock('../../api/expenses/expensesRemoteSource', () => ({
+        fetchExpenses: jest.fn(() =>
+          Promise.resolve<ExpensesResponse>({
+            expenses: [{}, {}, {}] as Expense[],
+            total: TOTAL_EXPENSES_AMOUNT,
+            error: undefined,
+          }),
+        ),
+      }));
+      const store = create(createExpensesSlice);
+      const setStateMock = jest.fn();
+      store.getState().loadExpenses(setStateMock);
+
+      waitFor(() => {
+        expect(store.getState()[as]).toBe(expected);
+      });
+    },
+  );
+
+  it('when canLoadMore is called should return true if the amount of expenses is less than total and false when the amount is equal o higher', () => {
+    const TOTAL_EXPENSES_AMOUNT = 3;
+    const mockExpensesResults = mockReturnValueOnce([
+      () =>
+        Promise.resolve<ExpensesResponse>({
+          expenses: [{}] as Expense[],
+          total: TOTAL_EXPENSES_AMOUNT,
+          error: undefined,
+        }),
+      () =>
+        Promise.resolve<ExpensesResponse>({
+          expenses: [{}, {}, {}] as Expense[],
+          total: TOTAL_EXPENSES_AMOUNT,
+          error: undefined,
+        }),
+    ]);
+    jest.mock('../../api/expenses/expensesRemoteSource', () => ({
+      fetchExpenses: mockExpensesResults,
+    }));
     const store = create(createExpensesSlice);
     const setStateMock = jest.fn();
     store.getState().loadExpenses(setStateMock);
 
     waitFor(() => {
-      expect(store.getState().totalExpenses).toBe(TOTAL_EXPENSES_AMOUNT);
+      expect(store.getState().canLoadMore).toBe(true);
+    });
+
+    store.getState().loadExpenses(setStateMock);
+
+    waitFor(() => {
+      expect(store.getState().canLoadMore).toBe(false);
     });
   });
 });

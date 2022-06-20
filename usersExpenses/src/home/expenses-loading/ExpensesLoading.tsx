@@ -7,7 +7,7 @@ import { styles } from './ExpensesLoading.style';
 export const ExpensesLoading = () => {
   const { t } = useTranslation();
   return (
-    <View style={styles.root}>
+    <View style={styles.root} testID="loading-view">
       <LottieView
         style={styles.loading}
         source={require('../../../assets/anims/expenses_loading.json')}
