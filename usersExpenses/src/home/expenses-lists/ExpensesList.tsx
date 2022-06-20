@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import {
   ActivityIndicator,
+  Animated,
   FlatList,
   ListRenderItem,
   View,
@@ -33,6 +34,8 @@ const FooterListItem = ({ isLoading }: { isLoading: boolean }) => {
 export const ExpensesList = ({ expenses }: ExpensesListProps) => {
   const loadExpenses = useStore(loadExpensesStore);
   const canLoadMore = useStore(canLoadMoreStore);
+  const scrollY = useRef(new Animated.Value(0));
+  const diffClamp = Animated.diffClamp(scrollY.current, 0, 100);
   const [loadMore, setLoadMore] = useState<StoreResponse>({ state: 'idle' });
   const renderItem: ListRenderItem<Expense> = ({ item }) => (
     <ExpensesItem expense={item} />
@@ -43,10 +46,15 @@ export const ExpensesList = ({ expenses }: ExpensesListProps) => {
       loadExpenses(setLoadMore);
     }
   };
+  const translateY = diffClamp.interpolate({
+    inputRange: [0, 100],
+    outputRange: [0, 100],
+    extrapolate: 'clamp',
+  });
 
   return (
     <>
-      <FlatList
+      <Animated.FlatList
         contentContainerStyle={styles.listContainer}
         data={expenses}
         renderItem={renderItem}
@@ -56,8 +64,12 @@ export const ExpensesList = ({ expenses }: ExpensesListProps) => {
         ListFooterComponent={
           <FooterListItem isLoading={loadMore.state === 'loading'} />
         }
+        onScroll={Animated.event(
+          [{ nativeEvent: { contentOffset: { y: scrollY.current } } }],
+          { useNativeDriver: true },
+        )}
       />
-      <SearchBox />
+      <SearchBox translateY={translateY} />
     </>
   );
 };

@@ -1,6 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import {
+  Animated,
   Image,
   NativeSyntheticEvent,
   TextInput,
@@ -12,10 +13,13 @@ import { UseExpensesStore } from '../../common/store/createExpenseSlice';
 import { useStore } from '../../common/store/useStore';
 import { styles } from './SearchBox.style';
 
+type SearchBoxProps = {
+  translateY: Animated.AnimatedInterpolation;
+};
 const addQueryStore = (store: UseExpensesStore) => store.addQuery;
 const currentSearchStore = (store: UseExpensesStore) => store.currentSearch;
 
-export const SearchBox = () => {
+export const SearchBox = ({ translateY }: SearchBoxProps) => {
   const { t } = useTranslation();
   const addQuery = useStore(addQueryStore);
   const currentSearch = useStore(currentSearchStore);
@@ -27,7 +31,7 @@ export const SearchBox = () => {
   };
 
   return (
-    <View style={styles.root}>
+    <Animated.View style={[styles.root, { transform: [{ translateY }] }]}>
       <TextInput
         style={styles.searchInput}
         placeholder={t('searchHint')}
@@ -35,6 +39,6 @@ export const SearchBox = () => {
         defaultValue={currentSearch}
       />
       <Image style={styles.searchIcon} source={searchIcon} />
-    </View>
+    </Animated.View>
   );
 };
