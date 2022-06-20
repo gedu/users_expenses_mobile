@@ -71,3 +71,17 @@ Please note that while you are free to use libraries of your choosing, we encour
 - Then run `npx react-native run-android`
 
 Note: Sometimes it doesn't load the app into the emulator you can solve this running `adb reverse tcp:3000 tcp:3000`, you will need the `adb` in your PATH.
+
+## Videos
+
+Basic flow:
+https://github.com/gedu/users_expenses_mobile/blob/main/resources/expenses_flow.mov
+
+Error state:
+https://github.com/gedu/users_expenses_mobile/blob/main/resources/expenses_error.mov
+
+Loading state:
+https://github.com/gedu/users_expenses_mobile/blob/main/resources/expenses_loading.mov
+
+Tests cases:
+https://github.com/gedu/users_expenses_mobile/blob/main/resources/tests_passed.png
