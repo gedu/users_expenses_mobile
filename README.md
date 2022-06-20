@@ -74,14 +74,10 @@ Note: Sometimes it doesn't load the app into the emulator you can solve this run
 
 ## Videos
 
-Basic flow:
-https://github.com/gedu/users_expenses_mobile/blob/main/resources/expenses_flow.mov
+[Basic flow](https://github.com/gedu/users_expenses_mobile/blob/main/resources/expenses_flow.mov)
 
-Error state:
-https://github.com/gedu/users_expenses_mobile/blob/main/resources/expenses_error.mov
+[Error state](https://github.com/gedu/users_expenses_mobile/blob/main/resources/expenses_error.mov)
 
-Loading state:
-https://github.com/gedu/users_expenses_mobile/blob/main/resources/expenses_loading.mov
+[Loading state](https://github.com/gedu/users_expenses_mobile/blob/main/resources/expenses_loading.mov)
 
-Tests cases:
-https://github.com/gedu/users_expenses_mobile/blob/main/resources/tests_passed.png
+[Tests cases](https://github.com/gedu/users_expenses_mobile/blob/main/resources/tests_passed.png)
