@@ -22,6 +22,7 @@ Multiple app screen application using ReactNative and Java/Kotlin/Swift:
 - Zustand as state management 
 - Localization
 - Test
+- Some ESLint rules
 
 ## Running the API
 
